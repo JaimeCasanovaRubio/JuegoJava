@@ -1,13 +1,13 @@
 package com.jayas.topDown.entities;
 
 import java.util.ArrayList;
+
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-public class Player extends Entity {
-
+public class Entity {
     private ArrayList<Animation<TextureRegion>> animations;
     private ArrayList<Texture> textures;
     private int currentAnimation;
@@ -16,15 +16,13 @@ public class Player extends Entity {
     private float xPosition;
     private float yPosition;
     private float speed;
-    private float scale;
 
-    public Player(float xPosition, float yPosition, float speed, float scale) {
-        super(xPosition, yPosition, speed);
-        this.scale = scale;
-        this.animations = new ArrayList<>();
-        this.textures = new ArrayList<>();
-
-        loadAnimations();
+    public Entity(float xPosition, float yPosition, float speed) {
+        this.xPosition = xPosition;
+        this.yPosition = yPosition;
+        this.speed = speed;
+        this.currentAnimation = 0;
+        this.stateTime = 0f;
     }
 
     public void loadAnimations() {
@@ -40,7 +38,6 @@ public class Player extends Entity {
         addAnimation("player/Jump/Wall Jump (32x32).png", 5, 0.07f);
 
         addAnimation("player/Jump/Double Jump (32x32).png", 6, 0.07f);
-
     }
 
     // Añade una animación desde un spritesheet horizontal
@@ -55,55 +52,11 @@ public class Player extends Entity {
         animations.add(new Animation<>(frameDuration, tmp[0]));
     }
 
-    public void update(float deltaTime) {
-        stateTime += deltaTime;
-    }
-
-    public void draw(SpriteBatch batch) {
-        Animation<TextureRegion> anim = animations.get(currentAnimation);
-        TextureRegion frame = anim.getKeyFrame(stateTime, true);
-
-        float width = frame.getRegionWidth() * scale;
-        float height = frame.getRegionHeight() * scale;
-        batch.draw(frame, xPosition, yPosition, width, height);
-    }
-
     // Cambiar animación por índice
     public void setAnimation(int index) {
         if (index >= 0 && index < animations.size() && currentAnimation != index) {
             currentAnimation = index;
             stateTime = 0f; // Reiniciar desde el primer frame
         }
-    }
-
-    public void dispose() {
-        for (Texture t : textures) {
-            t.dispose();
-        }
-    }
-
-    // Getters y setters...
-    public float getxPosition() {
-        return xPosition;
-    }
-
-    public void setxPosition(float xPosition) {
-        this.xPosition = xPosition;
-    }
-
-    public float getyPosition() {
-        return yPosition;
-    }
-
-    public void setyPosition(float yPosition) {
-        this.yPosition = yPosition;
-    }
-
-    public float getSpeed() {
-        return speed;
-    }
-
-    public void setSpeed(float speed) {
-        this.speed = speed;
     }
 }

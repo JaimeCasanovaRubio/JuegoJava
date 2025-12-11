@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.jayas.topDown.entities.Player;
 
 /**
  * {@link com.badlogic.gdx.ApplicationListener} implementation shared by all
@@ -13,13 +14,15 @@ import com.badlogic.gdx.utils.ScreenUtils;
 public class Main extends ApplicationAdapter {
     private SpriteBatch batch;
     private Texture image;
-    private Texture logo;
+    private Player player;
 
     @Override
     public void create() {
+
         batch = new SpriteBatch();
-        logo = new Texture("logo.png");
+
         image = new Texture("libgdx.png");
+        player = new Player(960 / 2, 540 / 2, 100, 4f);
     }
 
     @Override
@@ -30,6 +33,7 @@ public class Main extends ApplicationAdapter {
 
     private void update(float delta) {
         // Para actualizar posiciones, input, colisiones, etc
+        player.update(delta);
     }
 
     private void draw() {
@@ -39,8 +43,7 @@ public class Main extends ApplicationAdapter {
         batch.begin();
         // Aquí dentro se dibuja todo
         batch.draw(image, (960 / 2) - image.getWidth() / 2, 540 / 2 - image.getHeight() / 2);
-        batch.draw(logo, (960 / 3) - image.getWidth() / 2, 540 / 2 - logo.getHeight() / 2);
-
+        player.draw(batch);
         // Importante cerrar el batch
         batch.end();
     }
