@@ -14,7 +14,6 @@ import static com.jayas.topDown.utils.Cons.*;
 import static com.jayas.topDown.utils.Cons.Images.*;
 
 public class Playing implements Statemethods {
-    private SpriteBatch batch;
     private Texture background;
     private Player player;
     private MovementController movController;
@@ -23,8 +22,7 @@ public class Playing implements Statemethods {
     private OrthographicCamera camera;
     private Viewport viewport;
 
-    public Playing(SpriteBatch batch) {
-        this.batch = batch;
+    public Playing() {
         initClasses();
     }
 
