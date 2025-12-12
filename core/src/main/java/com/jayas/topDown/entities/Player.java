@@ -6,6 +6,8 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
+import static com.jayas.topDown.utils.Cons.*;
+
 public class Player extends Entity {
 
     private ArrayList<Animation<TextureRegion>> animations;
@@ -13,13 +15,12 @@ public class Player extends Entity {
     private int currentAnimation;
     private float stateTime;
     private boolean right, left, jump;
-    private boolean facingRight = true; // Por defecto mira ala derecha
+    private boolean facingRight = true; // Por defecto mira a la derecha
 
-    private float scale, speedJump;
+    private float speedJump;
 
-    public Player(float xPosition, float yPosition, float speed, float scale) {
+    public Player(float xPosition, float yPosition, float speed) {
         super(xPosition, yPosition, speed);
-        this.scale = scale;
         this.animations = new ArrayList<>();
         this.textures = new ArrayList<>();
         speedJump = 15f;
@@ -77,8 +78,8 @@ public class Player extends Entity {
         Animation<TextureRegion> anim = animations.get(currentAnimation);
         TextureRegion frame = anim.getKeyFrame(stateTime, true);
 
-        float width = frame.getRegionWidth() * scale;
-        float height = frame.getRegionHeight() * scale;
+        float width = frame.getRegionWidth() * SCALE;
+        float height = frame.getRegionHeight() * SCALE;
         // Invertir el frame si mira a la izquierda y no está ya invertido, o viceversa
         boolean needsFlip = (facingRight && frame.isFlipX()) || (!facingRight && !frame.isFlipX());
         if (needsFlip) {

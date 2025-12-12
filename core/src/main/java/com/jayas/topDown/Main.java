@@ -8,6 +8,8 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.jayas.topDown.controllers.MovementController;
 import com.jayas.topDown.entities.Player;
 
+import static com.jayas.topDown.utils.Cons.*;
+
 /**
  * {@link com.badlogic.gdx.ApplicationListener} implementation shared by all
  * platforms.
@@ -24,7 +26,7 @@ public class Main extends ApplicationAdapter {
         batch = new SpriteBatch();
 
         image = new Texture("tileSet/2 Background/Background.png");
-        player = new Player(960 / 2, 540 / 2, 5, 4f);
+        player = new Player(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2, 5);
         movController = new MovementController(player);
     }
 
@@ -46,7 +48,7 @@ public class Main extends ApplicationAdapter {
 
         batch.begin();
         // Aquí dentro se dibuja todo
-        batch.draw(image, (960 / 2) - image.getWidth() / 2, 540 / 2 - image.getHeight() / 2);
+        batch.draw(image, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
         player.draw(batch);
         // Importante cerrar el batch
         batch.end();
