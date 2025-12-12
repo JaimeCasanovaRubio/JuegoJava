@@ -14,12 +14,10 @@ public class Entity {
 
     protected float xPosition;
     protected float yPosition;
-    protected float speed;
 
-    public Entity(float xPosition, float yPosition, float speed) {
+    public Entity(float xPosition, float yPosition) {
         this.xPosition = xPosition;
         this.yPosition = yPosition;
-        this.speed = speed;
         this.currentAnimation = 0;
         this.stateTime = 0f;
     }
