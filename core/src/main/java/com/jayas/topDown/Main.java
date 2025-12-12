@@ -26,7 +26,7 @@ public class Main extends ApplicationAdapter {
         batch = new SpriteBatch();
 
         image = new Texture("tileSet/2 Background/Background.png");
-        player = new Player(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2, 5);
+        player = new Player(SMALL_WINDOW_WIDTH / 2, SMALL_WINDOW_HEIGHT / 2, 5);
         movController = new MovementController(player);
     }
 
@@ -48,7 +48,7 @@ public class Main extends ApplicationAdapter {
 
         batch.begin();
         // Aquí dentro se dibuja todo
-        batch.draw(image, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+        batch.draw(image, 0, 0, SMALL_WINDOW_WIDTH, SMALL_WINDOW_HEIGHT);
         player.draw(batch);
         // Importante cerrar el batch
         batch.end();
