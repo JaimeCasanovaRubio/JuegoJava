@@ -57,10 +57,20 @@ public class Player extends Entity {
     }
 
     public void update(float deltaTime) {
-
+        updateAnimation();
         updatePosition();
         stateTime += deltaTime;
 
+    }
+
+    public void updateAnimation() {
+        if (right || left) {
+            setAnimation(0);
+        } else if (jump) {
+            setAnimation(3);
+        } else {
+            setAnimation(1);
+        }
     }
 
     public void draw(SpriteBatch batch) {
