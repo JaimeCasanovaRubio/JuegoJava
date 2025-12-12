@@ -68,6 +68,10 @@ public class Game extends ApplicationAdapter {
         switch (GameState.state) {
             case PLAYING:
                 playing.render(batch);
+                // Renderizar TiledMap ANTES del SpriteBatch (tiene su propio renderer)
+                if (GameState.state == GameState.PLAYING) {
+                    playing.renderMap();
+                }
                 break;
             case MENU:
                 menu.render(batch);

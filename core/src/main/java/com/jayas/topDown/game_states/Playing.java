@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.jayas.topDown.controllers.MapController;
 import com.jayas.topDown.controllers.MovementController;
 import com.jayas.topDown.entities.Player;
 import com.jayas.topDown.manager.Assets;
@@ -17,6 +18,7 @@ public class Playing implements Statemethods {
     private Texture background;
     private Player player;
     private MovementController movController;
+    private MapController mapController;
 
     // CAMARA
     private OrthographicCamera camera;
@@ -27,6 +29,7 @@ public class Playing implements Statemethods {
     }
 
     private void initClasses() {
+
         background = Assets.getTexture(BACKGROUND);
         player = new Player(SMALL_WINDOW_WIDTH / 2, SMALL_WINDOW_HEIGHT / 2);
         movController = new MovementController(player);
@@ -37,10 +40,14 @@ public class Playing implements Statemethods {
         viewport.apply();
         camera.position.set(player.getxPosition(), player.getyPosition(), 0);
         camera.update();
+
+        mapController = new MapController();
+        mapController.loadMap("maps/prueba.tmx");
     }
 
     @Override
     public void update(float delta) {
+
         player.update(delta);
         camera.position.x = player.getxPosition();
         camera.update();
@@ -53,6 +60,11 @@ public class Playing implements Statemethods {
         // TODO -> según el nivel en el que esté, el tamaño del fondo debe cambiar
         batch.draw(background, 0, 0, SMALL_WINDOW_WIDTH, SMALL_WINDOW_HEIGHT);
         player.draw(batch);
+    }
+
+    // Renderiza el mapa TiledMap (debe llamarse FUERA del SpriteBatch)
+    public void renderMap() {
+        mapController.render(camera);
     }
 
     // Importante: manejar resize

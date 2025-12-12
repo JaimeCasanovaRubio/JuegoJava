@@ -4,9 +4,10 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import static com.jayas.topDown.utils.Cons.SCALE;
 
 public class MapController {
-    private static final float UNIT_SCALE = 1f;
+    private static final float UNIT_SCALE = SCALE; // Usar la misma escala que el juego
 
     private TiledMap map;
     private OrthogonalTiledMapRenderer renderer;
@@ -15,19 +16,19 @@ public class MapController {
 
     public MapController() {
         mapLoader = new TmxMapLoader();
-        camera = new OrthographicCamera();
     }
 
     public void loadMap(String mapPath) {
         if (map != null) {
-            map.dispose();
-        }
+         
+        } 
         if (renderer != null) {
             renderer.dispose();
-       
-        }
-        map = mapLoader.load(mapPath);
-        renderer = new OrthogonalTiledMapRenderer(map, UNIT_SCALE);
+
+          
+           
+        }map=mapLoader.load(mapPath);renderer=new OrthogonalTiledMapRenderer(map,UNIT_SCALE);
+
     }
 
     public void render(OrthographicCamera mainCamera) {
