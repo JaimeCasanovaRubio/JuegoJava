@@ -26,10 +26,10 @@ public class Game extends ApplicationAdapter {
         Assets.load();
         Assets.finishLoading();
         batch = new SpriteBatch();
-        playing = new Playing(batch);
-        menu = new Menu(batch);
-        paused = new Paused(batch);
-        game_over = new GameOver(batch);
+        playing = new Playing();
+        menu = new Menu();
+        paused = new Paused();
+        game_over = new GameOver();
     }
 
     @Override

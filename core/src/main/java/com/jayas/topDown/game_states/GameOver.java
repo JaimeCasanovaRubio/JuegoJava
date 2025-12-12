@@ -4,10 +4,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class GameOver implements Statemethods {
 
-    private SpriteBatch batch;
+    public GameOver() {
 
-    public GameOver(SpriteBatch batch) {
-        this.batch = batch;
     }
 
     @Override
