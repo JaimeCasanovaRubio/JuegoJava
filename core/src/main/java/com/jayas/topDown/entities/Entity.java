@@ -8,14 +8,14 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class Entity {
-    private ArrayList<Animation<TextureRegion>> animations;
-    private ArrayList<Texture> textures;
-    private int currentAnimation;
-    private float stateTime;
+    protected ArrayList<Animation<TextureRegion>> animations;
+    protected ArrayList<Texture> textures;
+    protected int currentAnimation;
+    protected float stateTime;
 
-    private float xPosition;
-    private float yPosition;
-    private float speed;
+    protected float xPosition;
+    protected float yPosition;
+    protected float speed;
 
     public Entity(float xPosition, float yPosition, float speed) {
         this.xPosition = xPosition;

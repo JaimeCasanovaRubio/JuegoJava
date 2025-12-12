@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.jayas.topDown.controllers.MovementController;
 import com.jayas.topDown.entities.Player;
 
 /**
@@ -15,14 +16,16 @@ public class Main extends ApplicationAdapter {
     private SpriteBatch batch;
     private Texture image;
     private Player player;
+    private MovementController movController;
 
     @Override
     public void create() {
 
         batch = new SpriteBatch();
 
-        image = new Texture("libgdx.png");
-        player = new Player(960 / 2, 540 / 2, 100, 4f);
+        image = new Texture("tileSet/2 Background/Background.png");
+        player = new Player(960 / 2, 540 / 2, 5, 4f);
+        movController = new MovementController(player);
     }
 
     @Override
@@ -33,6 +36,7 @@ public class Main extends ApplicationAdapter {
 
     private void update(float delta) {
         // Para actualizar posiciones, input, colisiones, etc
+        movController.checkKeyboard();
         player.update(delta);
     }
 
@@ -52,5 +56,9 @@ public class Main extends ApplicationAdapter {
     public void dispose() {
         batch.dispose();
         image.dispose();
+    }
+
+    private void keyPressed() {
+
     }
 }

@@ -12,17 +12,18 @@ public class Player extends Entity {
     private ArrayList<Texture> textures;
     private int currentAnimation;
     private float stateTime;
+    private boolean right, left, jump;
+    private boolean facingRight = true; // Por defecto mira ala derecha
 
-    private float xPosition;
-    private float yPosition;
-    private float speed;
-    private float scale;
+    private float scale, speedJump;
 
     public Player(float xPosition, float yPosition, float speed, float scale) {
         super(xPosition, yPosition, speed);
         this.scale = scale;
         this.animations = new ArrayList<>();
         this.textures = new ArrayList<>();
+        speedJump = 15f;
+        facingRight = true;
 
         loadAnimations();
     }
@@ -56,7 +57,10 @@ public class Player extends Entity {
     }
 
     public void update(float deltaTime) {
+
+        updatePosition();
         stateTime += deltaTime;
+
     }
 
     public void draw(SpriteBatch batch) {
@@ -65,6 +69,11 @@ public class Player extends Entity {
 
         float width = frame.getRegionWidth() * scale;
         float height = frame.getRegionHeight() * scale;
+        // Invertir el frame si mira a la izquierda y no está ya invertido, o viceversa
+        boolean needsFlip = (facingRight && frame.isFlipX()) || (!facingRight && !frame.isFlipX());
+        if (needsFlip) {
+            frame.flip(true, false);
+        }
         batch.draw(frame, xPosition, yPosition, width, height);
     }
 
@@ -73,6 +82,20 @@ public class Player extends Entity {
         if (index >= 0 && index < animations.size() && currentAnimation != index) {
             currentAnimation = index;
             stateTime = 0f; // Reiniciar desde el primer frame
+        }
+    }
+
+    public void updatePosition() {
+        if (right) {
+            xPosition += speed;
+            facingRight = true;
+        }
+        if (left) {
+            xPosition -= speed;
+            facingRight = false;
+        }
+        if (jump) {
+            yPosition += speedJump;
         }
     }
 
@@ -105,5 +128,29 @@ public class Player extends Entity {
 
     public void setSpeed(float speed) {
         this.speed = speed;
+    }
+
+    public boolean isRight() {
+        return right;
+    }
+
+    public void setRight(boolean right) {
+        this.right = right;
+    }
+
+    public boolean isLeft() {
+        return left;
+    }
+
+    public void setLeft(boolean left) {
+        this.left = left;
+    }
+
+    public boolean isJump() {
+        return jump;
+    }
+
+    public void setJump(boolean jump) {
+        this.jump = jump;
     }
 }
