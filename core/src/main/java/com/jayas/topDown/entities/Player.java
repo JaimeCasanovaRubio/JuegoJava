@@ -5,8 +5,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.jayas.topDown.manager.Assets;
 
 import static com.jayas.topDown.utils.Cons.*;
+import static com.jayas.topDown.utils.Cons.Images.*;
 
 public class Player extends Entity {
 
@@ -17,37 +19,38 @@ public class Player extends Entity {
     private boolean right, left, jump;
     private boolean facingRight = true; // Por defecto mira a la derecha
 
-    private float speedJump;
+    private float speed, speedJump;
 
-    public Player(float xPosition, float yPosition, float speed) {
-        super(xPosition, yPosition, speed);
+    public Player(float xPosition, float yPosition) {
+        super(xPosition, yPosition);
         this.animations = new ArrayList<>();
         this.textures = new ArrayList<>();
         speedJump = 15f;
         facingRight = true;
+        speed = PLAYER_SPEED;
 
         loadAnimations();
     }
 
     public void loadAnimations() {
 
-        addAnimation("player/movement/Run (32x32).png", 12, 0.07f);
+        addAnimation(PLAYER_RUN, getSpriteCount(RUN), 0.07f);
 
-        addAnimation("player/idle/Idle (32x32).png", 11, 0.07f);
+        addAnimation(PLAYER_IDLE, getSpriteCount(IDLE), 0.07f);
 
-        addAnimation("player/hit/Hit (32x32).png", 7, 0.07f);
+        addAnimation(PLAYER_HIT, getSpriteCount(HIT), 0.07f);
 
-        addAnimation("player/jump/Jump (32x32).png", 1, 0.07f);
+        addAnimation(PLAYER_JUMP, getSpriteCount(JUMP), 0.07f);
 
-        addAnimation("player/Jump/Wall Jump (32x32).png", 5, 0.07f);
+        addAnimation(PLAYER_WALL_JUMP, getSpriteCount(WALL_JUMP), 0.07f);
 
-        addAnimation("player/Jump/Double Jump (32x32).png", 6, 0.07f);
+        addAnimation(PLAYER_DOUBLE_JUMP, getSpriteCount(DOUBLE_JUMP), 0.07f);
 
     }
 
     // Añade una animación desde un spritesheet horizontal
     private void addAnimation(String path, int frameCount, float frameDuration) {
-        Texture sheet = new Texture(path);
+        Texture sheet = Assets.getTexture(path);
         textures.add(sheet);
 
         int frameWidth = sheet.getWidth() / frameCount;
@@ -111,9 +114,7 @@ public class Player extends Entity {
     }
 
     public void dispose() {
-        for (Texture t : textures) {
-            t.dispose();
-        }
+
     }
 
     // Getters y setters...
