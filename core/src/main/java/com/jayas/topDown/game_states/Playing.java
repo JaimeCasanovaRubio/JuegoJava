@@ -73,7 +73,7 @@ public class Playing implements Statemethods {
         batch.setProjectionMatrix(camera.combined);
         // Fondo fijo en el mundo (en posición 0,0) para que el jugador se mueva
         // TODO -> según el nivel en el que esté, el tamaño del fondo debe cambiar
-        batch.draw(background, 0, 0, SMALL_WINDOW_WIDTH, SMALL_WINDOW_HEIGHT);
+        batch.draw(background, 0, 0, mapController.getMapWidth(), mapController.getMapHeight());
         player.draw(batch);
     }
 
@@ -121,5 +121,4 @@ public class Playing implements Statemethods {
         player.dispose();
         shapeRenderer.dispose();
     }
-
 }
