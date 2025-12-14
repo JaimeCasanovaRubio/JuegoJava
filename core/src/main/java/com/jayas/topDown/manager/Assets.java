@@ -17,6 +17,7 @@ public class Assets {
         manager.load(Cons.Images.PLAYER_JUMP, Texture.class);
         manager.load(Cons.Images.PLAYER_WALL_JUMP, Texture.class);
         manager.load(Cons.Images.PLAYER_DOUBLE_JUMP, Texture.class);
+        manager.load(Cons.Images.PLAYER_FALL, Texture.class);
 
         manager.load(Cons.Images.BACKGROUND, Texture.class);
     }

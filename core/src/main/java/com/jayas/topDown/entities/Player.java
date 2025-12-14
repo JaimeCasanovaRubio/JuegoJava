@@ -19,7 +19,7 @@ public class Player extends Entity {
     private ArrayList<Texture> textures;
     private int currentAnimation;
     private float stateTime;
-    private boolean right, left, jump;
+    private boolean right, left, jump, fall;
     private boolean facingRight = true; // Por defecto mira a la derecha
 
     private float speed, speedJump;
@@ -54,6 +54,8 @@ public class Player extends Entity {
 
         addAnimation(PLAYER_DOUBLE_JUMP, getSpriteCount(DOUBLE_JUMP), 0.07f);
 
+        addAnimation(PLAYER_FALL, getSpriteCount(FALL), 0.07f);
+
     }
 
     // Añade una animación desde un spritesheet horizontal
@@ -80,6 +82,8 @@ public class Player extends Entity {
             setAnimation(0);
         } else if (jump) {
             setAnimation(3);
+        } else if (fall) {
+            setAnimation(6);
         } else {
             setAnimation(1);
         }
@@ -107,10 +111,11 @@ public class Player extends Entity {
         }
     }
 
-    public void updatePosition(CollisionManager collisionManager) {
-        float nextX = xPosition;
-        float nextY = yPosition;
+    private float verticalVelocity = 0;
 
+    public void updatePosition(CollisionManager collisionManager) {
+        // --- MOVEMENT HORIZONTAL ---
+        float nextX = xPosition;
         if (right) {
             nextX += speed;
             facingRight = true;
@@ -119,23 +124,47 @@ public class Player extends Entity {
             nextX -= speed;
             facingRight = false;
         }
-        if (jump) {
-            nextY += speedJump;
-        }
 
+        // Check Horizontal Collision
         Rectangle testHitbox = new Rectangle(hitbox);
         testHitbox.setPosition(nextX + hitboxOffsetX, yPosition + hitboxOffsetY);
-
         if (!collisionManager.checkCollisions(testHitbox)) {
-            // No hay colisión, podemos movernos
             xPosition = nextX;
         }
 
-        // --- VERIFICAR COLISIÓN VERTICAL ---
+        // --- MOVEMENT VERTICAL ---
+        // Gravity & Jump
+        if (jump && !fall) { // saltar solo si estamos en el suelo
+            verticalVelocity = speedJump;
+            fall = true;
+        }
+
+        verticalVelocity -= GRAVITY; // Gravedad (Ajustar valor si es necesario)
+
+        // Terminal velocity (limite de velocidad de caida)
+        if (verticalVelocity < -20)
+            verticalVelocity = -20;
+
+        float nextY = yPosition + verticalVelocity;
+
+        // Check Vertical Collision
         testHitbox.setPosition(xPosition + hitboxOffsetX, nextY + hitboxOffsetY);
 
-        if (!collisionManager.checkCollisions(testHitbox)) {
+        if (collisionManager.checkCollisions(testHitbox)) {
+            // Colision detectada
+            if (verticalVelocity < 0) {
+                // Cayendo -> Aterrizar
+                fall = false;
+                verticalVelocity = 0;
+            } else if (verticalVelocity > 0) {
+                // Saltando -> Techo
+                verticalVelocity = 0;
+            }
+            // No actualizamos yPosition si choca
+        } else {
+            // Aire libre
             yPosition = nextY;
+            fall = true;
         }
 
         // Sincronizar hitbox con posición final
