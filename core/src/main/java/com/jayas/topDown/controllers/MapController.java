@@ -23,13 +23,14 @@ public class MapController {
     public void loadMap(String mapPath) {
         if (map != null) {
 
+        }if(renderer!=null) {
+            renderer.dispose();
+        {
+
         }
-
-        }if(renderer!=null)
-
-    {
-        renderer.dispose();
-    }map=mapLoader.load(mapPath);renderer=new OrthogonalTiledMapRenderer(map,UNIT_SCALE);collisionManager.loadCollitions(map);
+        map = mapLoader.load(mapPath);
+        renderer = new OrthogonalTiledMapRenderer(map, UNIT_SCALE);
+        collisionManager.loadCollitions(map);
     }
 
     public void render(OrthographicCamera mainCamera) {
