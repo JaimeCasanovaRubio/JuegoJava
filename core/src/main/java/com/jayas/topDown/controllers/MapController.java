@@ -20,14 +20,15 @@ public class MapController {
 
     public void loadMap(String mapPath) {
         if (map != null) {
-         
-        } 
+
+        }
         if (renderer != null) {
             renderer.dispose();
 
+        }
           
            
-        }map=mapLoader.load(mapPath);renderer=new OrthogonalTiledMapRenderer(map,UNIT_SCALE);
+        map=mapLoader.load(mapPath);renderer=new OrthogonalTiledMapRenderer(map,UNIT_SCALE);
 
     }
 
