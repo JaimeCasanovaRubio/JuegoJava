@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.jayas.topDown.game_states.GameOver;
 import com.jayas.topDown.game_states.GameState;
+import com.jayas.topDown.game_states.Menu;
 import com.jayas.topDown.game_states.Paused;
 import com.jayas.topDown.game_states.Playing;
 import com.jayas.topDown.manager.Assets;
