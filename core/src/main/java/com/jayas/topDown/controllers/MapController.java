@@ -6,8 +6,12 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import static com.jayas.topDown.utils.Cons.SCALE;
 
+import java.util.ArrayList;
+
 public class MapController {
     private static final float UNIT_SCALE = SCALE; // Usar la misma escala que el juego
+    private ArrayList<TiledMap> maps;
+    private int currentMapIndex;
 
     private TiledMap map;
     private OrthogonalTiledMapRenderer renderer;
@@ -18,6 +22,8 @@ public class MapController {
     public MapController() {
         mapLoader = new TmxMapLoader();
         collisionManager = new CollisionManager();
+        maps = new ArrayList<>();
+        currentMapIndex = 0;
     }
 
     public void loadMap(String mapPath) {
@@ -27,8 +33,8 @@ public class MapController {
         if (renderer != null) {
             renderer.dispose();
         }
-
-        map = mapLoader.load(mapPath);
+        maps.add(mapLoader.load(mapPath));
+        map = maps.get(currentMapIndex);
         renderer = new OrthogonalTiledMapRenderer(map, UNIT_SCALE);
         collisionManager.loadCollitions(map);
     }
@@ -55,5 +61,17 @@ public class MapController {
 
     public CollisionManager getCollisionManager() {
         return collisionManager;
+    }
+
+    public float getMapWidth() {
+        int widthInTiles = map.getProperties().get("width", Integer.class);
+        int tileWidth = map.getProperties().get("tilewidth", Integer.class);
+        return widthInTiles * tileWidth * UNIT_SCALE;
+    }
+
+    public float getMapHeight() {
+        int heightInTiles = map.getProperties().get("height", Integer.class);
+        int tileHeight = map.getProperties().get("tileheight", Integer.class);
+        return heightInTiles * tileHeight * UNIT_SCALE;
     }
 }
