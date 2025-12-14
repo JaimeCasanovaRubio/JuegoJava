@@ -29,6 +29,9 @@ public class Player extends Entity {
         facingRight = true;
         speed = PLAYER_SPEED;
 
+        float hitboxWidth = 30 * SCALE; // Más estrecho que el width del sprite
+        float hitboxHeight = 28 * SCALE; // Casi igual de alto que el height del sprite
+        initHitbox(hitboxWidth, hitboxHeight, PLAYER_WIDTH, PLAYER_HEIGHT);
         loadAnimations();
     }
 
@@ -111,6 +114,8 @@ public class Player extends Entity {
         if (jump) {
             yPosition += speedJump;
         }
+
+        updateHitbox();
     }
 
     public void dispose() {

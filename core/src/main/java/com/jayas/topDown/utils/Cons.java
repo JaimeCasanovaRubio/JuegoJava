@@ -10,6 +10,8 @@ public class Cons {
 
     // PLAYER
     public static final int PLAYER_SPEED = 5;
+    public static final int PLAYER_WIDTH = 32;
+    public static final int PLAYER_HEIGHT = 32;
 
     public class Images {
 
