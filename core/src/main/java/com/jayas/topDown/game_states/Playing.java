@@ -1,9 +1,13 @@
 package com.jayas.topDown.game_states;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.jayas.topDown.controllers.MapController;
@@ -24,6 +28,10 @@ public class Playing implements Statemethods {
     private OrthographicCamera camera;
     private Viewport viewport;
 
+    // DEBUG
+    private ShapeRenderer shapeRenderer;
+    private boolean debugMode = false;
+
     public Playing() {
         initClasses();
     }
@@ -31,6 +39,8 @@ public class Playing implements Statemethods {
     private void initClasses() {
 
         background = Assets.getTexture(BACKGROUND);
+        mapController = new MapController();
+        mapController.loadMap("maps/prueba.tmx");
         player = new Player(SMALL_WINDOW_WIDTH / 2, SMALL_WINDOW_HEIGHT / 2);
         movController = new MovementController(player);
         Gdx.input.setInputProcessor(movController);
@@ -41,14 +51,19 @@ public class Playing implements Statemethods {
         camera.position.set(player.getxPosition(), player.getyPosition(), 0);
         camera.update();
 
-        mapController = new MapController();
-        mapController.loadMap("maps/prueba.tmx");
+        // Debug renderer
+        shapeRenderer = new ShapeRenderer();
     }
 
     @Override
     public void update(float delta) {
+        // Toggle debug con F3
+        if (Gdx.input.isKeyJustPressed(Keys.F3)) {
+            debugMode = !debugMode;
+            System.out.println("Debug mode: " + (debugMode ? "ON" : "OFF"));
+        }
 
-        player.update(delta);
+        player.update(delta, mapController.getCollisionManager());
         camera.position.x = player.getxPosition();
         camera.update();
     }
@@ -67,6 +82,34 @@ public class Playing implements Statemethods {
         mapController.render(camera);
     }
 
+    /**
+     * Renderiza hitboxes y rectángulos de colisión para debug.
+     * Debe llamarse DESPUÉS de batch.end() y renderMap().
+     */
+    public void renderDebug() {
+        if (!debugMode)
+            return;
+
+        shapeRenderer.setProjectionMatrix(camera.combined);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+
+        // Dibujar rectángulos de colisión del mapa (ROJO)
+        shapeRenderer.setColor(Color.RED);
+        for (Rectangle rect : mapController.getCollisionManager().getCollisionRects()) {
+            shapeRenderer.rect(rect.x, rect.y, rect.width, rect.height);
+        }
+
+        // Dibujar hitbox del jugador (VERDE)
+        shapeRenderer.setColor(Color.GREEN);
+        Rectangle playerHitbox = player.getHitbox();
+        if (playerHitbox != null) {
+            shapeRenderer.rect(playerHitbox.x, playerHitbox.y,
+                    playerHitbox.width, playerHitbox.height);
+        }
+
+        shapeRenderer.end();
+    }
+
     // Importante: manejar resize
     public void resize(int width, int height) {
         viewport.update(width, height);
@@ -76,6 +119,7 @@ public class Playing implements Statemethods {
     public void dispose() {
         background.dispose();
         player.dispose();
+        shapeRenderer.dispose();
     }
 
 }

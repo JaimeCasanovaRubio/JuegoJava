@@ -1,10 +1,13 @@
 package com.jayas.topDown.entities;
 
 import java.util.ArrayList;
+
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Rectangle;
+import com.jayas.topDown.controllers.CollisionManager;
 import com.jayas.topDown.manager.Assets;
 
 import static com.jayas.topDown.utils.Cons.*;
@@ -29,9 +32,11 @@ public class Player extends Entity {
         facingRight = true;
         speed = PLAYER_SPEED;
 
-        float hitboxWidth = 30 * SCALE; // Más estrecho que el width del sprite
-        float hitboxHeight = 28 * SCALE; // Casi igual de alto que el height del sprite
-        initHitbox(hitboxWidth, hitboxHeight, PLAYER_WIDTH, PLAYER_HEIGHT);
+        float hitboxWidth = 18 * SCALE; // Más estrecho que el width del sprite
+        float hitboxHeight = 25 * SCALE; // Casi igual de alto que el height del sprite
+        float spriteWidth = PLAYER_WIDTH * SCALE; // Sprite escalado
+        float spriteHeight = PLAYER_HEIGHT * SCALE;
+        initHitbox(hitboxWidth, hitboxHeight, spriteWidth, spriteHeight);
         loadAnimations();
     }
 
@@ -63,9 +68,9 @@ public class Player extends Entity {
         animations.add(new Animation<>(frameDuration, tmp[0]));
     }
 
-    public void update(float deltaTime) {
+    public void update(float deltaTime, CollisionManager collisionManager) {
         updateAnimation();
-        updatePosition();
+        updatePosition(collisionManager);
         stateTime += deltaTime;
 
     }
@@ -102,19 +107,38 @@ public class Player extends Entity {
         }
     }
 
-    public void updatePosition() {
+    public void updatePosition(CollisionManager collisionManager) {
+        float nextX = xPosition;
+        float nextY = yPosition;
+
         if (right) {
-            xPosition += speed;
+            nextX += speed;
             facingRight = true;
         }
         if (left) {
-            xPosition -= speed;
+            nextX -= speed;
             facingRight = false;
         }
         if (jump) {
-            yPosition += speedJump;
+            nextY += speedJump;
         }
 
+        Rectangle testHitbox = new Rectangle(hitbox);
+        testHitbox.setPosition(nextX + hitboxOffsetX, yPosition + hitboxOffsetY);
+
+        if (!collisionManager.checkCollisions(testHitbox)) {
+            // No hay colisión, podemos movernos
+            xPosition = nextX;
+        }
+
+        // --- VERIFICAR COLISIÓN VERTICAL ---
+        testHitbox.setPosition(xPosition + hitboxOffsetX, nextY + hitboxOffsetY);
+
+        if (!collisionManager.checkCollisions(testHitbox)) {
+            yPosition = nextY;
+        }
+
+        // Sincronizar hitbox con posición final
         updateHitbox();
     }
 

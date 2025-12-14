@@ -1,6 +1,7 @@
 package com.jayas.topDown.entities;
 
 import java.util.ArrayList;
+import static com.jayas.topDown.utils.Cons.*;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -73,9 +74,11 @@ public class Entity {
      * @param spriteHeight Alto del sprite escalado
      */
     protected void initHitbox(float width, float height, float spriteWidth, float spriteHeight) {
-        // Calcular offset para centrar el hitbox
+        // Calcular offset para centrar el hitbox horizontalmente
         this.hitboxOffsetX = (spriteWidth - width) / 2f;
-        this.hitboxOffsetY = (spriteHeight - height) / 2f;
+        // Offset Y = 0 para que el hitbox esté anclado en los pies
+        // Cuando la altura cambie, solo varía la parte superior
+        this.hitboxOffsetY = 1 * SCALE;
 
         this.hitbox = new Rectangle(
                 xPosition + hitboxOffsetX,

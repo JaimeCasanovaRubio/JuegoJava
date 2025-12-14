@@ -86,6 +86,11 @@ public class Game extends ApplicationAdapter {
         }
         // Importante cerrar el batch
         batch.end();
+
+        // Renderizar debug DESPUÉS de cerrar el batch (ShapeRenderer separado)
+        if (GameState.state == GameState.PLAYING) {
+            playing.renderDebug();
+        }
     }
 
     @Override

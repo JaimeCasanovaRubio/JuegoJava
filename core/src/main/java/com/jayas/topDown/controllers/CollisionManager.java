@@ -18,7 +18,7 @@ public class CollisionManager {
     }
 
     public void loadCollitions(TiledMap map) {
-        MapLayer collisionLayer = map.getLayers().get("Collitions");
+        MapLayer collisionLayer = map.getLayers().get("collision");
 
         if (collisionLayer == null) {
             System.out.println("⚠️ AVISO: No se encontró la capa 'collision' en el mapa.");
