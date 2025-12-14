@@ -13,23 +13,24 @@ public class MapController {
     private OrthogonalTiledMapRenderer renderer;
     private TmxMapLoader mapLoader;
     private OrthographicCamera camera;
+    private CollisionManager collisionManager;
 
     public MapController() {
         mapLoader = new TmxMapLoader();
+        collisionManager = new CollisionManager();
     }
 
     public void loadMap(String mapPath) {
         if (map != null) {
 
-        }
-        if (renderer != null) {
+        }if(renderer!=null) {
             renderer.dispose();
+        {
 
         }
-          
-           
-        map=mapLoader.load(mapPath);renderer=new OrthogonalTiledMapRenderer(map,UNIT_SCALE);
-
+        map = mapLoader.load(mapPath);
+        renderer = new OrthogonalTiledMapRenderer(map, UNIT_SCALE);
+        collisionManager.loadCollitions(map);
     }
 
     public void render(OrthographicCamera mainCamera) {
@@ -50,5 +51,9 @@ public class MapController {
 
     public TiledMap getMap() {
         return map;
+    }
+
+    public CollisionManager getCollisionManager() {
+        return collisionManager;
     }
 }

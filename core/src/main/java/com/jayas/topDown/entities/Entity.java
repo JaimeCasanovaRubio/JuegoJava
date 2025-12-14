@@ -5,12 +5,17 @@ import java.util.ArrayList;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Rectangle;
 
 public class Entity {
     protected ArrayList<Animation<TextureRegion>> animations;
     protected ArrayList<Texture> textures;
     protected int currentAnimation;
     protected float stateTime;
+
+    protected Rectangle hitbox;
+    protected float hitboxOffsetX;
+    protected float hitboxOffsetY;
 
     protected float xPosition;
     protected float yPosition;
@@ -55,5 +60,41 @@ public class Entity {
             currentAnimation = index;
             stateTime = 0f; // Reiniciar desde el primer frame
         }
+    }
+
+    // HITBOX
+    /**
+     * Inicializa el hitbox con un tamaño específico.
+     * Los offsets centran el hitbox dentro del sprite.
+     * 
+     * @param width        Ancho del hitbox en píxeles del mundo
+     * @param height       Alto del hitbox en píxeles del mundo
+     * @param spriteWidth  Ancho del sprite escalado
+     * @param spriteHeight Alto del sprite escalado
+     */
+    protected void initHitbox(float width, float height, float spriteWidth, float spriteHeight) {
+        // Calcular offset para centrar el hitbox
+        this.hitboxOffsetX = (spriteWidth - width) / 2f;
+        this.hitboxOffsetY = (spriteHeight - height) / 2f;
+
+        this.hitbox = new Rectangle(
+                xPosition + hitboxOffsetX,
+                yPosition + hitboxOffsetY,
+                width,
+                height);
+    }
+
+    /**
+     * Sincroniza la posición del hitbox con la posición de la entidad.
+     * IMPORTANTE: Llamar esto DESPUÉS de mover la entidad.
+     */
+    protected void updateHitbox() {
+        if (hitbox != null) {
+            hitbox.setPosition(xPosition + hitboxOffsetX, yPosition + hitboxOffsetY);
+        }
+    }
+
+    public Rectangle getHitbox() {
+        return hitbox;
     }
 }
