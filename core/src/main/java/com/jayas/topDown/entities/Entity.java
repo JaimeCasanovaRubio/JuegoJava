@@ -13,6 +13,7 @@ public class Entity {
     protected ArrayList<Texture> textures;
     protected int currentAnimation;
     protected float stateTime;
+    protected boolean movingRight;
 
     protected Rectangle hitbox;
     protected float hitboxOffsetX;
@@ -21,14 +22,25 @@ public class Entity {
     protected float xPosition;
     protected float yPosition;
 
+    protected int health;
+    protected int maxHealth;
+    protected boolean dead;
+    protected boolean invincible = false;
+    protected float invincibleTimer = 0;
+
     public Entity(float xPosition, float yPosition) {
+        this.dead = false;
+        this.maxHealth = 3;
+        this.health = maxHealth;
         this.xPosition = xPosition;
         this.yPosition = yPosition;
         this.currentAnimation = 0;
         this.stateTime = 0f;
+        this.textures = new ArrayList<>();
+        this.animations = new ArrayList<>();
     }
 
-    public void loadAnimations() {
+    protected void loadAnimations() {
 
         addAnimation("player/movement/Run (32x32).png", 12, 0.07f);
 
@@ -44,7 +56,7 @@ public class Entity {
     }
 
     // Añade una animación desde un spritesheet horizontal
-    private void addAnimation(String path, int frameCount, float frameDuration) {
+    protected void addAnimation(String path, int frameCount, float frameDuration) {
         Texture sheet = new Texture(path);
         textures.add(sheet);
 
@@ -56,7 +68,7 @@ public class Entity {
     }
 
     // Cambiar animación por índice
-    public void setAnimation(int index) {
+    protected void setAnimation(int index) {
         if (index >= 0 && index < animations.size() && currentAnimation != index) {
             currentAnimation = index;
             stateTime = 0f; // Reiniciar desde el primer frame
@@ -100,4 +112,17 @@ public class Entity {
     public Rectangle getHitbox() {
         return hitbox;
     }
+
+    // Gestión daño
+    public void takeDamage(int damage) {
+        if (!invincible) {
+            health -= damage;
+            invincible = true;
+            invincibleTimer = 2f; // 2 segundos de invencibilidad
+            if (health <= 0) {
+                dead = true;
+            }
+        }
+    }
+
 }
