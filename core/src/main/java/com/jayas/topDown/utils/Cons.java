@@ -15,6 +15,10 @@ public class Cons {
     public static final int PLAYER_WIDTH = 32;
     public static final int PLAYER_HEIGHT = 32;
 
+    // MONSTERS
+
+    public static final int MONSTER_SPEED = 2;
+
     public class Images {
 
         // BACKGROUND

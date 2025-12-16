@@ -1,33 +1,27 @@
 package com.jayas.topDown.entities;
 
-import java.util.ArrayList;
-
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.jayas.topDown.controllers.CollisionManager;
-import com.jayas.topDown.manager.Assets;
 
 import static com.jayas.topDown.utils.Cons.*;
 import static com.jayas.topDown.utils.Cons.Images.*;
 
 public class Player extends Entity {
 
-    private ArrayList<Animation<TextureRegion>> animations;
-    private ArrayList<Texture> textures;
     private int currentAnimation;
     private float stateTime;
     private boolean right, left, jump, fall;
     private boolean facingRight = true; // Por defecto mira a la derecha
 
+    private float verticalVelocity = 0;
     private float speed, speedJump;
 
+    // Constructor y carga animaciones
     public Player(float xPosition, float yPosition) {
         super(xPosition, yPosition);
-        this.animations = new ArrayList<>();
-        this.textures = new ArrayList<>();
         speedJump = 19f;
         facingRight = true;
         speed = PLAYER_SPEED;
@@ -58,19 +52,10 @@ public class Player extends Entity {
 
     }
 
-    // Añade una animación desde un spritesheet horizontal
-    private void addAnimation(String path, int frameCount, float frameDuration) {
-        Texture sheet = Assets.getTexture(path);
-        textures.add(sheet);
-
-        int frameWidth = sheet.getWidth() / frameCount;
-        int frameHeight = sheet.getHeight();
-
-        TextureRegion[][] tmp = TextureRegion.split(sheet, frameWidth, frameHeight);
-        animations.add(new Animation<>(frameDuration, tmp[0]));
-    }
-
+    // Update y Draw
     public void update(float deltaTime, CollisionManager collisionManager) {
+        if (dead) {
+        }
         updateAnimation();
         updatePosition(collisionManager);
         stateTime += deltaTime;
@@ -78,6 +63,10 @@ public class Player extends Entity {
     }
 
     public void updateAnimation() {
+        if (dead) {
+            setAnimation(2);
+            return;
+        }
         if (right || left) {
             setAnimation(0);
         } else if (jump) {
@@ -88,30 +77,6 @@ public class Player extends Entity {
             setAnimation(1);
         }
     }
-
-    public void draw(SpriteBatch batch) {
-        Animation<TextureRegion> anim = animations.get(currentAnimation);
-        TextureRegion frame = anim.getKeyFrame(stateTime, true);
-
-        float width = frame.getRegionWidth() * SCALE;
-        float height = frame.getRegionHeight() * SCALE;
-        // Invertir el frame si mira a la izquierda y no está ya invertido, o viceversa
-        boolean needsFlip = (facingRight && frame.isFlipX()) || (!facingRight && !frame.isFlipX());
-        if (needsFlip) {
-            frame.flip(true, false);
-        }
-        batch.draw(frame, xPosition, yPosition, width, height);
-    }
-
-    // Cambiar animación por índice
-    public void setAnimation(int index) {
-        if (index >= 0 && index < animations.size() && currentAnimation != index) {
-            currentAnimation = index;
-            stateTime = 0f; // Reiniciar desde el primer frame
-        }
-    }
-
-    private float verticalVelocity = 0;
 
     public void updatePosition(CollisionManager collisionManager) {
         // --- MOVEMENT HORIZONTAL ---
@@ -169,6 +134,20 @@ public class Player extends Entity {
 
         // Sincronizar hitbox con posición final
         updateHitbox();
+    }
+
+    public void draw(SpriteBatch batch) {
+        Animation<TextureRegion> anim = animations.get(currentAnimation);
+        TextureRegion frame = anim.getKeyFrame(stateTime, true);
+
+        float width = frame.getRegionWidth() * SCALE;
+        float height = frame.getRegionHeight() * SCALE;
+        // Invertir el frame si mira a la izquierda y no está ya invertido, o viceversa
+        boolean needsFlip = (facingRight && frame.isFlipX()) || (!facingRight && !frame.isFlipX());
+        if (needsFlip) {
+            frame.flip(true, false);
+        }
+        batch.draw(frame, xPosition, yPosition, width, height);
     }
 
     public void dispose() {
