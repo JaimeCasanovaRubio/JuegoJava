@@ -9,7 +9,6 @@ import static com.jayas.topDown.utils.Cons.SCALE;
 import java.util.ArrayList;
 
 public class MapController {
-    private static final float UNIT_SCALE = SCALE; // Usar la misma escala que el juego
     private ArrayList<TiledMap> maps;
     private int currentMapIndex;
 
@@ -35,7 +34,7 @@ public class MapController {
         }
         maps.add(mapLoader.load(mapPath));
         map = maps.get(currentMapIndex);
-        renderer = new OrthogonalTiledMapRenderer(map, UNIT_SCALE);
+        renderer = new OrthogonalTiledMapRenderer(map, SCALE);
         collisionManager.loadCollitions(map);
     }
 
@@ -66,12 +65,12 @@ public class MapController {
     public float getMapWidth() {
         int widthInTiles = map.getProperties().get("width", Integer.class);
         int tileWidth = map.getProperties().get("tilewidth", Integer.class);
-        return widthInTiles * tileWidth * UNIT_SCALE;
+        return widthInTiles * tileWidth * SCALE;
     }
 
     public float getMapHeight() {
         int heightInTiles = map.getProperties().get("height", Integer.class);
         int tileHeight = map.getProperties().get("tileheight", Integer.class);
-        return heightInTiles * tileHeight * UNIT_SCALE;
+        return heightInTiles * tileHeight * SCALE;
     }
 }
