@@ -41,7 +41,7 @@ public class Playing implements Statemethods {
         background = Assets.getTexture(BACKGROUND);
         mapController = new MapController();
         mapController.loadMap("maps/prueba.tmx");
-        player = new Player(SMALL_WINDOW_WIDTH / 2, SMALL_WINDOW_HEIGHT / 2);
+        player = new Player(200f, 300f);
         movController = new MovementController(player);
         Gdx.input.setInputProcessor(movController);
         camera = new OrthographicCamera();
@@ -65,6 +65,7 @@ public class Playing implements Statemethods {
 
         player.update(delta, mapController.getCollisionManager());
         camera.position.x = player.getxPosition();
+        camera.position.y = player.getyPosition();
         camera.update();
     }
 

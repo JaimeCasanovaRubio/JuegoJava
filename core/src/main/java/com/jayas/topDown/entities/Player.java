@@ -28,7 +28,7 @@ public class Player extends Entity {
         super(xPosition, yPosition);
         this.animations = new ArrayList<>();
         this.textures = new ArrayList<>();
-        speedJump = 15f;
+        speedJump = 19f;
         facingRight = true;
         speed = PLAYER_SPEED;
 
