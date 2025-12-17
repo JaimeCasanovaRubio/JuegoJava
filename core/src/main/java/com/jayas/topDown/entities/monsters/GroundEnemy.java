@@ -37,7 +37,17 @@ public class GroundEnemy extends Entity {
         addAnimation(PLAYER_IDLE, getSpriteCount(IDLE), 0.07f);
     }
 
+    @Override
     public void update(float delta, CollisionManager collisionManager) {
+        System.out.println(health);
+        super.update(delta, collisionManager);
+        patrol(delta, collisionManager);
+
+        // Actualizar el hitbox después de mover
+        updateHitbox();
+    }
+
+    public void patrol(float delta, CollisionManager collisionManager) {
         // Mover en la dirección actual
         if (movingRight && !collisionManager.checkCollisions(hitbox)) {
             facingRight = true;
@@ -54,9 +64,6 @@ public class GroundEnemy extends Entity {
                 }
             }
         }
-
-        // Actualizar el hitbox después de mover
-        updateHitbox();
     }
 
     public void draw(SpriteBatch batch) {

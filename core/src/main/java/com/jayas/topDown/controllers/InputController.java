@@ -4,10 +4,10 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.jayas.topDown.entities.Player;
 
-public class MovementController implements InputProcessor {
+public class InputController implements InputProcessor {
     private Player player;
 
-    public MovementController(Player player) {
+    public InputController(Player player) {
         this.player = player;
     }
 
@@ -19,6 +19,8 @@ public class MovementController implements InputProcessor {
             player.setRight(true);
         } else if (keycode == Keys.SPACE) {
             player.setJump(true);
+        } else if (keycode == Keys.J) {
+            player.attack(); // Inicia el ataque con su timer
         }
         return true;
     }

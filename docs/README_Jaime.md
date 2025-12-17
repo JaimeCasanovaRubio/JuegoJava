@@ -1,4 +1,4 @@
-# 📋 Plan de Implementación - Persona B
+d# 📋 Plan de Implementación - Persona B
 ## 🎮 Enfoque: Gameplay y Mecánicas del Juego
 
 ---
