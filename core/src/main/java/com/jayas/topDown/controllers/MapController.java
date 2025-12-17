@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+
 import static com.jayas.topDown.utils.Cons.SCALE;
 
 import java.util.ArrayList;
@@ -17,10 +18,14 @@ public class MapController {
     private TmxMapLoader mapLoader;
     private OrthographicCamera camera;
     private CollisionManager collisionManager;
+    private EnemyController enemyController;
+    private ItemController itemController;
 
     public MapController() {
         mapLoader = new TmxMapLoader();
         collisionManager = new CollisionManager();
+        enemyController = new EnemyController();
+        itemController = new ItemController();
         maps = new ArrayList<>();
         currentMapIndex = 0;
     }
@@ -35,7 +40,11 @@ public class MapController {
         maps.add(mapLoader.load(mapPath));
         map = maps.get(currentMapIndex);
         renderer = new OrthogonalTiledMapRenderer(map, SCALE);
+
+        // Cargar colisiones, enemigos e items desde el mapa
         collisionManager.loadCollitions(map);
+        enemyController.loadEnemies(map);
+        itemController.loadItems(map);
     }
 
     public void render(OrthographicCamera mainCamera) {
@@ -52,6 +61,8 @@ public class MapController {
         if (renderer != null) {
             renderer.dispose();
         }
+        enemyController.dispose();
+        itemController.dispose();
     }
 
     public TiledMap getMap() {
@@ -60,6 +71,14 @@ public class MapController {
 
     public CollisionManager getCollisionManager() {
         return collisionManager;
+    }
+
+    public EnemyController getEnemyController() {
+        return enemyController;
+    }
+
+    public ItemController getItemController() {
+        return itemController;
     }
 
     public float getMapWidth() {

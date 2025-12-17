@@ -192,6 +192,19 @@ public class Player extends Entity {
         }
     }
 
+    /**
+     * Recupera vida del jugador.
+     * 
+     * @param amount Cantidad de vida a recuperar
+     */
+    public void heal(int amount) {
+        health += amount;
+        if (health > maxHealth) {
+            health = maxHealth;
+        }
+        System.out.println("💖 Vida actual: " + health + "/" + maxHealth);
+    }
+
     public void attack() {
         // Solo iniciar ataque si no hay uno en progreso
         if (!attack) {
