@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
+import com.jayas.topDown.controllers.CollisionManager;
 
 public class Entity {
     protected ArrayList<Animation<TextureRegion>> animations;
@@ -27,6 +28,10 @@ public class Entity {
     protected boolean dead;
     protected boolean invincible = false;
     protected float invincibleTimer = 0;
+
+    boolean attack = false;
+    int hitAnimationTimer;
+    int attackTimer;
 
     public Entity(float xPosition, float yPosition) {
         this.dead = false;
@@ -99,6 +104,55 @@ public class Entity {
                 height);
     }
 
+    public void update(float deltaTime, CollisionManager collisionManager) {
+
+        if (dead) {
+            return;
+        }
+
+        if (attackTimer > 0) {
+            attackTimer -= deltaTime;
+            if (attackTimer <= 0) {
+                attack = false;
+            }
+        }
+
+        // Actualizar temporizador de animación de daño
+        if (hitAnimationTimer > 0) {
+            hitAnimationTimer -= deltaTime;
+        }
+
+        if (invincible) {
+            invincibleTimer -= deltaTime;
+            if (invincibleTimer <= 0) {
+                invincible = false;
+            }
+        }
+        updatePosition(collisionManager);
+        stateTime += deltaTime;
+
+    }
+
+    public void updateAnimation() {
+        if (dead) {
+            setAnimation(2);
+            return;
+        }
+        if (attackTimer > 0) {
+            setAnimation(5);
+            return;
+        }
+        // Mostrar animación de daño mientras el temporizador esté activo
+        if (hitAnimationTimer > 0) {
+            setAnimation(2);
+            return; // Importante: no continuar para que no se sobrescriba
+        }
+
+    }
+
+    public void updatePosition(CollisionManager collisionManager) {
+    }
+
     /**
      * Sincroniza la posición del hitbox con la posición de la entidad.
      * IMPORTANTE: Llamar esto DESPUÉS de mover la entidad.
@@ -116,9 +170,10 @@ public class Entity {
     // Gestión daño
     public void takeDamage(int damage) {
         if (!invincible) {
+            setAnimation(2);
             health -= damage;
             invincible = true;
-            invincibleTimer = 2f; // 2 segundos de invencibilidad
+            invincibleTimer = 1f; // 1 segundos de invencibilidad
             if (health <= 0) {
                 dead = true;
             }

@@ -10,8 +10,9 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.jayas.topDown.controllers.InputController;
 import com.jayas.topDown.controllers.MapController;
-import com.jayas.topDown.controllers.MovementController;
+
 import com.jayas.topDown.entities.Player;
 import com.jayas.topDown.entities.monsters.GroundEnemy;
 import com.jayas.topDown.manager.Assets;
@@ -23,7 +24,7 @@ public class Playing implements Statemethods {
     private Texture background;
     private Player player;
     private GroundEnemy enemy;
-    private MovementController movController;
+    private InputController inputController;
     private MapController mapController;
 
     // CAMARA
@@ -45,8 +46,8 @@ public class Playing implements Statemethods {
         mapController.loadMap("maps/prueba.tmx");
         player = new Player(200f, 300f);
         enemy = new GroundEnemy(270f, 642f, 120);
-        movController = new MovementController(player);
-        Gdx.input.setInputProcessor(movController);
+        inputController = new InputController(player);
+        Gdx.input.setInputProcessor(inputController);
         camera = new OrthographicCamera();
         viewport = new FitViewport(SMALL_WINDOW_WIDTH, SMALL_WINDOW_HEIGHT, camera);
 
@@ -68,6 +69,15 @@ public class Playing implements Statemethods {
 
         enemy.update(delta, mapController.getCollisionManager());
         player.update(delta, mapController.getCollisionManager());
+
+        // Si el jugador está atacando y su hitbox colisiona con el enemigo, hacer daño
+        if (player.isAttack() && player.getHitbox().overlaps(enemy.getHitbox())) {
+            enemy.takeDamage(1);
+        }
+        // Si NO está atacando y colisiona con el enemigo, el jugador recibe daño
+        else if (!player.isAttack() && player.getHitbox().overlaps(enemy.getHitbox())) {
+            player.takeDamage(1);
+        }
         camera.position.x = player.getxPosition();
         camera.position.y = player.getyPosition();
         camera.update();
@@ -80,6 +90,7 @@ public class Playing implements Statemethods {
         // TODO -> según el nivel en el que esté, el tamaño del fondo debe cambiar
         batch.draw(background, 0, 0, mapController.getMapWidth(), mapController.getMapHeight());
         player.draw(batch);
+
         enemy.draw(batch);
     }
 

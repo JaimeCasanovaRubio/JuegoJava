@@ -11,13 +11,15 @@ import static com.jayas.topDown.utils.Cons.Images.*;
 
 public class Player extends Entity {
 
-    private int currentAnimation;
-    private float stateTime;
+    // Variables heredadas de Entity: currentAnimation, stateTime, animations, etc.
     private boolean right, left, jump, fall;
     private boolean facingRight = true; // Por defecto mira a la derecha
 
+    private boolean attack = false;
     private float verticalVelocity = 0;
     private float speed, speedJump;
+    private float hitAnimationTimer = 0; // Tiempo que dura la animación de daño
+    private float attackTimer = 0; // Tiempo que dura la animación de ataque
 
     // Constructor y carga animaciones
     public Player(float xPosition, float yPosition) {
@@ -53,8 +55,28 @@ public class Player extends Entity {
     }
 
     // Update y Draw
+    @Override
     public void update(float deltaTime, CollisionManager collisionManager) {
+
         if (dead) {
+            return;
+        }
+        if (attackTimer > 0) {
+            attackTimer -= deltaTime;
+            if (attackTimer <= 0) {
+                attack = false;
+            }
+        }
+        // Actualizar temporizador de animación de daño
+        if (hitAnimationTimer > 0) {
+            hitAnimationTimer -= deltaTime;
+        }
+
+        if (invincible) {
+            invincibleTimer -= deltaTime;
+            if (invincibleTimer <= 0) {
+                invincible = false;
+            }
         }
         updateAnimation();
         updatePosition(collisionManager);
@@ -62,10 +84,20 @@ public class Player extends Entity {
 
     }
 
+    @Override
     public void updateAnimation() {
         if (dead) {
             setAnimation(2);
             return;
+        }
+        if (attackTimer > 0) {
+            setAnimation(5);
+            return;
+        }
+        // Mostrar animación de daño mientras el temporizador esté activo
+        if (hitAnimationTimer > 0) {
+            setAnimation(2);
+            return; // Importante: no continuar para que no se sobrescriba
         }
         if (right || left) {
             setAnimation(0);
@@ -78,6 +110,7 @@ public class Player extends Entity {
         }
     }
 
+    @Override
     public void updatePosition(CollisionManager collisionManager) {
         // --- MOVEMENT HORIZONTAL ---
         float nextX = xPosition;
@@ -150,6 +183,26 @@ public class Player extends Entity {
         batch.draw(frame, xPosition, yPosition, width, height);
     }
 
+    @Override
+    public void takeDamage(int damage) {
+        if (!invincible) {
+            super.takeDamage(damage);
+            hitAnimationTimer = 0.5f; // Mostrar animación de daño durante 0.5 segundos
+            stateTime = 0f; // Reiniciar la animación desde el principio
+        }
+    }
+
+    public void attack() {
+        // Solo iniciar ataque si no hay uno en progreso
+        if (!attack) {
+            attack = true;
+            invincible = true;
+            invincibleTimer = 0.5f;
+            attackTimer = 0.5f;
+            stateTime = 0f; // Reiniciar la animación desde el principio
+        }
+    }
+
     public void dispose() {
 
     }
@@ -201,5 +254,13 @@ public class Player extends Entity {
 
     public void setJump(boolean jump) {
         this.jump = jump;
+    }
+
+    public boolean isAttack() {
+        return attack;
+    }
+
+    public void setAttack(boolean attack) {
+        this.attack = attack;
     }
 }
