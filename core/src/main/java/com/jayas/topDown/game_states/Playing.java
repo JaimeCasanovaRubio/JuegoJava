@@ -10,18 +10,11 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-<<<<<<< HEAD
-import com.jayas.topDown.Game;
-=======
 import com.jayas.topDown.controllers.EnemyController;
->>>>>>> f220286f5f67b7193bf80d1c313e002b3bf33a18
 import com.jayas.topDown.controllers.InputController;
 import com.jayas.topDown.controllers.ItemController;
 import com.jayas.topDown.controllers.MapController;
-<<<<<<< HEAD
-=======
 import com.jayas.topDown.entities.Entity;
->>>>>>> f220286f5f67b7193bf80d1c313e002b3bf33a18
 import com.jayas.topDown.entities.Player;
 import com.jayas.topDown.manager.Assets;
 
@@ -46,8 +39,8 @@ public class Playing implements Statemethods {
     private ShapeRenderer shapeRenderer;
     private boolean debugMode = false;
 
-    public Playing(InputController ic) {
-        this.inputController = ic;
+    public Playing(InputController input) {
+        this.inputController = input;
         initClasses();
     }
 
@@ -62,11 +55,6 @@ public class Playing implements Statemethods {
         itemController = mapController.getItemController();
 
         player = new Player(200f, 300f);
-<<<<<<< HEAD
-        enemy = new GroundEnemy(270f, 642f, 120);
-=======
-        inputController = new InputController(player);
->>>>>>> f220286f5f67b7193bf80d1c313e002b3bf33a18
         Gdx.input.setInputProcessor(inputController);
         camera = new OrthographicCamera();
         viewport = new FitViewport(SMALL_WINDOW_WIDTH, SMALL_WINDOW_HEIGHT, camera);

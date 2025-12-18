@@ -38,14 +38,7 @@ public class GroundEnemy extends Entity {
         addAnimation(PLAYER_IDLE, getSpriteCount(IDLE), 0.07f);
     }
 
-<<<<<<< HEAD
-    @Override
-    public void update(float delta, CollisionManager collisionManager) {
-=======
     public void update(float delta, CollisionManager collisionManager, Rectangle playerHitbox) {
->>>>>>> f220286f5f67b7193bf80d1c313e002b3bf33a18
-        super.update(delta, collisionManager);
-
         checkZone(playerHitbox);
         patrol(delta, collisionManager);
 
