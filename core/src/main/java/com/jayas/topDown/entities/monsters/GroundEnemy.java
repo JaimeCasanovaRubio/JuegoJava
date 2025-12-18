@@ -39,7 +39,6 @@ public class GroundEnemy extends Entity {
 
     @Override
     public void update(float delta, CollisionManager collisionManager) {
-        System.out.println(health);
         super.update(delta, collisionManager);
         patrol(delta, collisionManager);
 

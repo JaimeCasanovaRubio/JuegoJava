@@ -1,10 +1,12 @@
 package com.jayas.topDown.game_states;
 
-public enum GameState {
+public enum Gamestate {
     PLAYING,
     MENU,
     PAUSED,
-    GAME_OVER;
+    GAME_OVER,
+    EXIT,
+    SETTINGS;
 
-    public static GameState state = PLAYING;
+    public static Gamestate state = MENU;
 }

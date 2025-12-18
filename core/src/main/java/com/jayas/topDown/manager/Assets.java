@@ -10,6 +10,9 @@ public class Assets {
     public static void load() {
         manager = new AssetManager();
 
+        // BUTTONS
+        manager.load(Cons.Images.BUTTON_HOVER, Texture.class);
+
         // PLAYER
         manager.load(Cons.Images.PLAYER_IDLE, Texture.class);
         manager.load(Cons.Images.PLAYER_RUN, Texture.class);
@@ -19,6 +22,17 @@ public class Assets {
         manager.load(Cons.Images.PLAYER_DOUBLE_JUMP, Texture.class);
         manager.load(Cons.Images.PLAYER_FALL, Texture.class);
 
+        // MENU
+        manager.load(Cons.Images.MENU_BACKGROUND, Texture.class);
+        manager.load(Cons.Images.MENU_PLAY1_BUTTON, Texture.class);
+        manager.load(Cons.Images.MENU_PLAY2_BUTTON, Texture.class);
+        manager.load(Cons.Images.MENU_EXIT1_BUTTON, Texture.class);
+        manager.load(Cons.Images.MENU_EXIT2_BUTTON, Texture.class);
+        manager.load(Cons.Images.MENU_SETTINGS1_BUTTON, Texture.class);
+        manager.load(Cons.Images.MENU_SETTINGS2_BUTTON, Texture.class);
+        manager.load(Cons.Images.MENU_OPTIONS_BACKGROUND, Texture.class);
+
+        // PLAYING
         manager.load(Cons.Images.BACKGROUND, Texture.class);
     }
 

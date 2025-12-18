@@ -10,9 +10,9 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.jayas.topDown.Game;
 import com.jayas.topDown.controllers.InputController;
 import com.jayas.topDown.controllers.MapController;
-
 import com.jayas.topDown.entities.Player;
 import com.jayas.topDown.entities.monsters.GroundEnemy;
 import com.jayas.topDown.manager.Assets;
@@ -35,7 +35,8 @@ public class Playing implements Statemethods {
     private ShapeRenderer shapeRenderer;
     private boolean debugMode = false;
 
-    public Playing() {
+    public Playing(InputController ic) {
+        this.inputController = ic;
         initClasses();
     }
 
@@ -46,7 +47,6 @@ public class Playing implements Statemethods {
         mapController.loadMap("maps/prueba.tmx");
         player = new Player(200f, 300f);
         enemy = new GroundEnemy(270f, 642f, 120);
-        inputController = new InputController(player);
         Gdx.input.setInputProcessor(inputController);
         camera = new OrthographicCamera();
         viewport = new FitViewport(SMALL_WINDOW_WIDTH, SMALL_WINDOW_HEIGHT, camera);
@@ -137,5 +137,9 @@ public class Playing implements Statemethods {
         background.dispose();
         player.dispose();
         shapeRenderer.dispose();
+    }
+
+    public Player getPlayer() {
+        return player;
     }
 }

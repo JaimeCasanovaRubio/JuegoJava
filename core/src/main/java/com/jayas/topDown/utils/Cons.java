@@ -2,6 +2,7 @@ package com.jayas.topDown.utils;
 
 public class Cons {
     public static final float SCALE = 2.5f;
+    public static final float UI_SCALE = SCALE * 1.75f;
 
     public static final float GRAVITY = 0.9f;
     // TILED
@@ -15,6 +16,10 @@ public class Cons {
     public static final int PLAYER_WIDTH = 32;
     public static final int PLAYER_HEIGHT = 32;
 
+    // MENU
+    public static final float MENU_BUTTON_WIDTH = 52;
+    public static final float MENU_BUTTON_HEIGHT = 16;
+
     // MONSTERS
 
     public static final int MONSTER_SPEED = 2;
@@ -24,6 +29,9 @@ public class Cons {
         // BACKGROUND
         public static final String BACKGROUND = "tileSet/2 Background/Background.png";
 
+        // BUTTONS
+        public static final String BUTTON_HOVER = "ui/menu/Button_hover.png";
+
         // PLAYER
         public static final String PLAYER_JUMP = "player/jump/Jump (32x32).png";
         public static final String PLAYER_IDLE = "player/idle/Idle (32x32).png";
@@ -32,6 +40,16 @@ public class Cons {
         public static final String PLAYER_WALL_JUMP = "player/jump/Wall Jump (32x32).png";
         public static final String PLAYER_DOUBLE_JUMP = "player/jump/Double Jump (32x32).png";
         public static final String PLAYER_FALL = "player/jump/Fall (32x32).png";
+
+        // MENU
+        public static final String MENU_BACKGROUND = "ui/menu/fondo_menu.jpg";
+        public static final String MENU_OPTIONS_BACKGROUND = "ui/menu/Menu_options_background.png";
+        public static final String MENU_PLAY1_BUTTON = "ui/menu/Boton_empezar1.png";
+        public static final String MENU_PLAY2_BUTTON = "ui/menu/Boton_empezar2.png";
+        public static final String MENU_EXIT1_BUTTON = "ui/menu/Boton_salir1.png";
+        public static final String MENU_EXIT2_BUTTON = "ui/menu/Boton_salir2.png";
+        public static final String MENU_SETTINGS1_BUTTON = "ui/menu/Boton_ajustes1.png";
+        public static final String MENU_SETTINGS2_BUTTON = "ui/menu/Boton_ajustes2.png";
 
         public static final int IDLE = 0;
         public static final int JUMP = 1;

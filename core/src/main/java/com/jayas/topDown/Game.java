@@ -4,11 +4,13 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.jayas.topDown.controllers.InputController;
 import com.jayas.topDown.game_states.GameOver;
-import com.jayas.topDown.game_states.GameState;
+import com.jayas.topDown.game_states.Gamestate;
 import com.jayas.topDown.game_states.Menu;
 import com.jayas.topDown.game_states.Paused;
 import com.jayas.topDown.game_states.Playing;
+import com.jayas.topDown.game_states.Settings;
 import com.jayas.topDown.manager.Assets;
 
 /**
@@ -20,17 +22,21 @@ public class Game extends ApplicationAdapter {
     private Menu menu;
     private Paused paused;
     private GameOver game_over;
+    private Settings settings;
     private SpriteBatch batch;
+    private InputController inputController;
 
     @Override
     public void create() {
         Assets.load();
         Assets.finishLoading();
+        inputController = new InputController(this);
         batch = new SpriteBatch();
-        playing = new Playing();
+        playing = new Playing(inputController);
         menu = new Menu();
         paused = new Paused();
         game_over = new GameOver();
+        settings = new Settings();
     }
 
     @Override
@@ -40,7 +46,7 @@ public class Game extends ApplicationAdapter {
     }
 
     private void update(float delta) {
-        switch (GameState.state) {
+        switch (Gamestate.state) {
             case PLAYING:
                 playing.update(delta);
                 break;
@@ -53,12 +59,22 @@ public class Game extends ApplicationAdapter {
             case GAME_OVER:
                 game_over.update(delta);
                 break;
+            case EXIT:
+                Gdx.app.exit();
+                break;
+            case SETTINGS:
+                settings.update(delta);
+                break;
+            default:
+                break;
         }
     }
 
     @Override
     public void resize(int width, int height) {
         playing.resize(width, height);
+        menu.resize(width, height);
+        settings.resize(width, height);
     }
 
     private void draw() {
@@ -66,11 +82,11 @@ public class Game extends ApplicationAdapter {
         ScreenUtils.clear(0.15f, 0.15f, 0.2f, 1f);
 
         batch.begin();
-        switch (GameState.state) {
+        switch (Gamestate.state) {
             case PLAYING:
                 playing.render(batch);
                 // Renderizar TiledMap ANTES del SpriteBatch (tiene su propio renderer)
-                if (GameState.state == GameState.PLAYING) {
+                if (Gamestate.state == Gamestate.PLAYING) {
                     playing.renderMap();
                 }
                 break;
@@ -83,12 +99,19 @@ public class Game extends ApplicationAdapter {
             case GAME_OVER:
                 game_over.render(batch);
                 break;
+            case EXIT:
+                break;
+            case SETTINGS:
+                settings.render(batch);
+                break;
+            default:
+                break;
         }
         // Importante cerrar el batch
         batch.end();
 
         // Renderizar debug DESPUÉS de cerrar el batch (ShapeRenderer separado)
-        if (GameState.state == GameState.PLAYING) {
+        if (Gamestate.state == Gamestate.PLAYING) {
             playing.renderDebug();
         }
     }
@@ -100,7 +123,28 @@ public class Game extends ApplicationAdapter {
         menu.dispose();
         game_over.dispose();
         paused.dispose();
+        settings.dispose();
         Assets.dispose();
+    }
+
+    public Playing getPlaying() {
+        return playing;
+    }
+
+    public Menu getMenu() {
+        return menu;
+    }
+
+    public Paused getPaused() {
+        return paused;
+    }
+
+    public GameOver getGameOver() {
+        return game_over;
+    }
+
+    public Settings getSettings() {
+        return settings;
     }
 
 }

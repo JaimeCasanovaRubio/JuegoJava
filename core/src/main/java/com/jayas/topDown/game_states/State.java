@@ -13,7 +13,7 @@ public abstract class State {
         return game;
     }
 
-    public void setGameState(GameState state) {
-        GameState.state = state;
+    public void setGameState(Gamestate state) {
+        Gamestate.state = state;
     }
 }
