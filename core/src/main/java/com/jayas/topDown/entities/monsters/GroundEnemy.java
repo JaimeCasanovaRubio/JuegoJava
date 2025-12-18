@@ -7,6 +7,7 @@ import static com.jayas.topDown.utils.Cons.Images.*;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Rectangle;
 import com.jayas.topDown.controllers.CollisionManager;
 
 public class GroundEnemy extends Entity {
@@ -37,9 +38,15 @@ public class GroundEnemy extends Entity {
         addAnimation(PLAYER_IDLE, getSpriteCount(IDLE), 0.07f);
     }
 
+<<<<<<< HEAD
     @Override
     public void update(float delta, CollisionManager collisionManager) {
+=======
+    public void update(float delta, CollisionManager collisionManager, Rectangle playerHitbox) {
+>>>>>>> f220286f5f67b7193bf80d1c313e002b3bf33a18
         super.update(delta, collisionManager);
+
+        checkZone(playerHitbox);
         patrol(delta, collisionManager);
 
         // Actualizar el hitbox después de mover
@@ -65,6 +72,33 @@ public class GroundEnemy extends Entity {
         }
     }
 
+    /**
+     * Detecta si el jugador está en la zona de visión del enemigo.
+     * 
+     * @param playerHitbox El hitbox del jugador
+     * @return true si el jugador fue detectado
+     */
+    public void checkZone(Rectangle playerHitbox) {
+        // Zona a la izquierda del enemigo (desde leftBound hasta la posición del
+        // enemigo)
+        float leftZoneWidth = xPosition - leftBound;
+        Rectangle leftZone = new Rectangle(leftBound, yPosition, leftZoneWidth, hitbox.getHeight());
+
+        // Zona a la derecha del enemigo (desde la posición del enemigo hasta
+        // rightBound)
+        float rightZoneWidth = rightBound - xPosition;
+        Rectangle rightZone = new Rectangle(xPosition + hitbox.getWidth(), yPosition, rightZoneWidth,
+                hitbox.getHeight());
+
+        // Comprobar si el jugador está en alguna zona
+        if (leftZone.overlaps(playerHitbox)) {
+            movingRight = false; // Ir hacia la izquierda donde está el jugador
+        }
+        if (rightZone.overlaps(playerHitbox)) {
+            movingRight = true; // Ir hacia la derecha donde está el jugador
+        }
+    }
+
     public void draw(SpriteBatch batch) {
         Animation<TextureRegion> anim = animations.get(currentAnimation);
         TextureRegion frame = anim.getKeyFrame(stateTime, true);
@@ -78,4 +112,5 @@ public class GroundEnemy extends Entity {
         }
         batch.draw(frame, xPosition, yPosition, width, height);
     }
+
 }

@@ -107,7 +107,8 @@ public class Entity {
     public void update(float deltaTime, CollisionManager collisionManager) {
 
         if (dead) {
-            return;
+            System.out.println("Muerto");
+
         }
 
         if (attackTimer > 0) {
@@ -170,7 +171,6 @@ public class Entity {
     // Gestión daño
     public void takeDamage(int damage) {
         if (!invincible) {
-            setAnimation(2);
             health -= damage;
             invincible = true;
             invincibleTimer = 1f; // 1 segundos de invencibilidad
@@ -178,6 +178,13 @@ public class Entity {
                 dead = true;
             }
         }
+    }
+
+    public void update(float delta, CollisionManager collisionManager, Rectangle playerHitbox) {
+    }
+
+    public boolean isDead() {
+        return dead;
     }
 
 }
