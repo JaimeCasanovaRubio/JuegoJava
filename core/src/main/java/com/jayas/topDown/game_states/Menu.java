@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import com.jayas.topDown.manager.Assets;
+import static com.jayas.topDown.manager.HelpMethods.*;
 import com.jayas.topDown.manager.buttons.MenuButton;
 
 import static com.jayas.topDown.utils.Cons.Images.*;
@@ -32,7 +33,7 @@ public class Menu implements Statemethods {
     private void initClasses() {
         camera = new com.badlogic.gdx.graphics.OrthographicCamera();
         viewport = new com.badlogic.gdx.utils.viewport.FitViewport(SMALL_WINDOW_WIDTH, SMALL_WINDOW_HEIGHT, camera);
-        camera.position.set(SMALL_WINDOW_WIDTH / 2f, SMALL_WINDOW_HEIGHT / 2f, 0);
+        camera.position.set(centerX, centerY, 0);
         camera.update();
 
         touchPoint = new com.badlogic.gdx.math.Vector3();
@@ -123,7 +124,7 @@ public class Menu implements Statemethods {
         viewport.unproject(touchPoint.set(screenX, screenY, 0));
 
         for (MenuButton b : buttons) {
-            if (isIn(screenX, screenY, b) && button == Input.Buttons.LEFT) {
+            if (isIn(screenX, screenY, b, viewport, touchPoint) && button == Input.Buttons.LEFT) {
                 b.setMousePressed(true);
             }
         }
@@ -133,7 +134,7 @@ public class Menu implements Statemethods {
         viewport.unproject(touchPoint.set(screenX, screenY, 0));
 
         for (MenuButton b : buttons) {
-            if (isIn(screenX, screenY, b) && button == Input.Buttons.LEFT) {
+            if (isIn(screenX, screenY, b, viewport, touchPoint) && button == Input.Buttons.LEFT) {
                 b.applyGamestate();
             }
         }
@@ -144,7 +145,7 @@ public class Menu implements Statemethods {
         viewport.unproject(touchPoint.set(screenX, screenY, 0));
 
         for (MenuButton b : buttons) {
-            if (isIn(screenX, screenY, b)) {
+            if (isIn(screenX, screenY, b, viewport, touchPoint)) {
                 b.setMouseOver(true);
             } else {
                 b.setMouseOver(false);
@@ -156,12 +157,6 @@ public class Menu implements Statemethods {
         for (MenuButton b : buttons) {
             b.resetAll();
         }
-    }
-
-    private boolean isIn(int screenX, int screenY, MenuButton b) {
-        viewport.unproject(touchPoint.set(screenX, screenY, 0));
-
-        return b.getHitbox().contains(touchPoint.x, touchPoint.y);
     }
 
 }

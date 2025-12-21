@@ -90,6 +90,7 @@ public class InputController implements InputProcessor {
             case EXIT:
                 break;
             case SETTINGS:
+                game.getSettings().mousePressed(screenX, screenY, pointer, button);
                 break;
             default:
                 break;
@@ -110,6 +111,7 @@ public class InputController implements InputProcessor {
             case EXIT:
                 break;
             case SETTINGS:
+                game.getSettings().mouseReleased(screenX, screenY, pointer, button);
                 break;
             default:
                 break;
@@ -140,6 +142,7 @@ public class InputController implements InputProcessor {
             case EXIT:
                 break;
             case SETTINGS:
+                game.getSettings().mouseMoved(screenX, screenY);
                 break;
             default:
                 break;

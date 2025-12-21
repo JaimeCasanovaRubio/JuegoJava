@@ -12,6 +12,7 @@ public class Assets {
 
         // BUTTONS
         manager.load(Cons.Images.BUTTON_HOVER, Texture.class);
+        manager.load(Cons.Images.SMALL_BUTTON_HOVER, Texture.class);
 
         // PLAYER
         manager.load(Cons.Images.PLAYER_IDLE, Texture.class);
@@ -31,6 +32,18 @@ public class Assets {
         manager.load(Cons.Images.MENU_SETTINGS1_BUTTON, Texture.class);
         manager.load(Cons.Images.MENU_SETTINGS2_BUTTON, Texture.class);
         manager.load(Cons.Images.MENU_OPTIONS_BACKGROUND, Texture.class);
+
+        // SETTINGS
+        manager.load(Cons.Images.SETTINGS_BOTONES_BACKGROUND, Texture.class);
+        manager.load(Cons.Images.SETTINGS_SONIDO_BACKGROUND, Texture.class);
+        manager.load(Cons.Images.SETTINGS_TITLE, Texture.class);
+        manager.load(Cons.Images.SETTINGS_CUADRO_CERRAR, Texture.class);
+        manager.load(Cons.Images.BOTON_CERRAR1, Texture.class);
+        manager.load(Cons.Images.BOTON_CERRAR2, Texture.class);
+        manager.load(Cons.Images.BOTON_CONTROLES1, Texture.class);
+        manager.load(Cons.Images.BOTON_CONTROLES2, Texture.class);
+        manager.load(Cons.Images.BOTON_CREDITOS1, Texture.class);
+        manager.load(Cons.Images.BOTON_CREDITOS2, Texture.class);
 
         // PLAYING
         manager.load(Cons.Images.BACKGROUND, Texture.class);

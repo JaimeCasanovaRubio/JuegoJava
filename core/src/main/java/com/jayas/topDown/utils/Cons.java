@@ -30,7 +30,8 @@ public class Cons {
         public static final String BACKGROUND = "tileSet/2 Background/Background.png";
 
         // BUTTONS
-        public static final String BUTTON_HOVER = "ui/menu/Button_hover.png";
+        public static final String BUTTON_HOVER = "ui/Button_hover.png";
+        public static final String SMALL_BUTTON_HOVER = "ui/rounded_button_hover.png";
 
         // PLAYER
         public static final String PLAYER_JUMP = "player/jump/Jump (32x32).png";
@@ -50,6 +51,18 @@ public class Cons {
         public static final String MENU_EXIT2_BUTTON = "ui/menu/Boton_salir2.png";
         public static final String MENU_SETTINGS1_BUTTON = "ui/menu/Boton_ajustes1.png";
         public static final String MENU_SETTINGS2_BUTTON = "ui/menu/Boton_ajustes2.png";
+
+        // SETTINGS
+        public static final String SETTINGS_SONIDO_BACKGROUND = "ui/settings/settings_sonido_background.png";
+        public static final String SETTINGS_CUADRO_CERRAR = "ui/settings/cuadro_cerrar_settings.png";
+        public static final String SETTINGS_BOTONES_BACKGROUND = "ui/settings/settings_botones_background.png";
+        public static final String SETTINGS_TITLE = "ui/settings/settings_title.png";
+        public static final String BOTON_CERRAR1 = "ui/settings/boton_cerrar1.png";
+        public static final String BOTON_CERRAR2 = "ui/settings/boton_cerrar2.png";
+        public static final String BOTON_CONTROLES1 = "ui/settings/boton_controles1.png";
+        public static final String BOTON_CONTROLES2 = "ui/settings/boton_controles2.png";
+        public static final String BOTON_CREDITOS1 = "ui/settings/boton_creditos1.png";
+        public static final String BOTON_CREDITOS2 = "ui/settings/boton_creditos2.png";
 
         public static final int IDLE = 0;
         public static final int JUMP = 1;
